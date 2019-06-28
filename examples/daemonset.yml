@@ -18,14 +18,16 @@ spec:
     spec:
       serviceAccountName: node-doktor
       containers:
-      - image: artsy/node-doktor:0.0.1
-        imagePullPolicy: IfNotPresent
+      - image: artsy/node-doktor:latest
+        imagePullPolicy: Always
         name: node-doktor
         env:
         - name: NODENAME
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
+        - name: PYTHONUNBUFFERED
+          value: "1"
         resources:
           requests:
             memory: "256Mi"
