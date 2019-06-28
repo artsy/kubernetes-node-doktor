@@ -26,7 +26,7 @@ docker push artsy/node-doktor:$(cat VERSION)
 
 ### Running
 
-- Intended to be run on a Kubernetes node as a Daemonset.  See [examples/daemonset.yml][examples/daemonset.yml] for an example
+- Intended to be run on a Kubernetes node as a Daemonset.  See [examples/daemonset.yml](examples/daemonset.yml) for an example
 
 - The environment variable `NODENAME` must be set to the name of the node running the Pod, using the Kubernetes downwards API
 
@@ -44,4 +44,4 @@ docker push artsy/node-doktor:$(cat VERSION)
   - Delete Pods
   - Cordon Nodes
 
-  See [examples/serviceaccount.yml][examples/serviceaccount.yml] for an example
+  See [examples/serviceaccount.yml](examples/serviceaccount.yml) for an example
