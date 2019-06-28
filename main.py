@@ -1,4 +1,4 @@
-import time, os, re, sys, datetime
+import time, os, re, datetime
 
 import pykube
 from urllib3.exceptions import ProtocolError
@@ -22,7 +22,7 @@ def main():
 
   api = pykube.HTTPClient(pykube.KubeConfig.from_service_account())
 
-  sys.stdout.write("Der node doktor ist in für %s, checkup every %s seconds..." % (NODENAME, POLL_INTERVAL))
+  log("Der node doktor ist in für %s, checkup every %s seconds..." % (NODENAME, POLL_INTERVAL))
 
   while True:
     try:
@@ -47,8 +47,6 @@ def main():
       api = pykube.HTTPClient(pykube.KubeConfig.from_service_account())
       continue
 
-    sys.stdout.write('.')
-    sys.stdout.flush()
     time.sleep(POLL_INTERVAL)
 
 if __name__ == "__main__":
