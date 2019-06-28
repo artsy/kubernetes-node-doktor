@@ -5,7 +5,6 @@ from urllib3.exceptions import ProtocolError
 from requests.exceptions import ConnectionError as ReqConnectionError
 
 NODENAME = os.environ.get("NODENAME")
-KUBECONFIG = os.environ.get("KUBECONFIG", "~/.kube/config")
 POLL_INTERVAL = int(os.environ.get("POLL_INTERVAL", "60"))
 
 MATCH_EVENTS = [
@@ -21,7 +20,7 @@ def main():
   if NODENAME is None:
     raise Exception("NODENAME cannot be None")
 
-  api = pykube.HTTPClient(pykube.KubeConfig.from_file(KUBECONFIG))
+  api = pykube.HTTPClient(pykube.KubeConfig.from_service_account())
 
   sys.stdout.write("Der node doktor ist in für %s, checkup every %s seconds..." % (NODENAME, POLL_INTERVAL))
 
@@ -45,7 +44,7 @@ def main():
 
     except (ProtocolError, ConnectionResetError, ConnectionError, ReqConnectionError):
       log("Connection reset...")
-      api = pykube.HTTPClient(pykube.KubeConfig.from_file(KUBECONFIG))
+      api = pykube.HTTPClient(pykube.KubeConfig.from_service_account())
       continue
 
     sys.stdout.write('.')
