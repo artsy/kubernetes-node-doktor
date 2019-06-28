@@ -17,10 +17,11 @@ docker build -t artsy/node-doktor .
 
 ### Distributing
 
+Bump version in VERSION and create a tag
+
 ```
 docker tag artsy/node-doktor:latest artsy/node-doktor:$(cat VERSION)
 docker push artsy/node-doktor:$(cat VERSION)
-docker push artsy/node-doktor:latest
 ```
 
 ### Running
