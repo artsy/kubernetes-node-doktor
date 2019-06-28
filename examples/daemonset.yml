@@ -18,7 +18,7 @@ spec:
     spec:
       serviceAccountName: node-doktor
       containers:
-      - image: artsy/node-doktor
+      - image: artsy/node-doktor:0.0.1
         imagePullPolicy: IfNotPresent
         name: node-doktor
         env:
