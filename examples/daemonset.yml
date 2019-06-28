@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-doktor
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: node-doktor
+  template:
+    metadata:
+      labels:
+        app: node-doktor
+      name: node-doktor
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      serviceAccountName: node-doktor
+      containers:
+      - image: artsy/node-doktor
+        imagePullPolicy: IfNotPresent
+        name: node-doktor
+        env:
+        - name: NODENAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "768Mi"
+            cpu: "500m"
