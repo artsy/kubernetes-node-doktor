@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-doktor
-  namespace: default
+  namespace: kube-system
 spec:
   selector:
     matchLabels:
