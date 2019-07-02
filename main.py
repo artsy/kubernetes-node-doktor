@@ -30,12 +30,16 @@ def main():
       bad_pods = []
 
       for pod in pykube.Pod.objects(api).filter(field_selector={"spec.nodeName": NODENAME, "status.phase": "ContainerCreating"}):
+        matched_event = False
         for pod_event in pykube.Event.objects(api).filter(field_selector={"involvedObject.name": pod.obj['metadata']['name']}):
           for event in MATCH_EVENTS:
             if re.search(event, pod_event.obj['message'], re.IGNORECASE):
-              log("Found event '%s' for pod %s" % (pod_event.obj['message'], pod.obj['metadata']['name']))
-              bad_pods.append(pod)
+              log("Matched event '%s' for pod %s" % (pod_event.obj['message'], pod.obj['metadata']['name']))
+              matched_event = True
               break
+          if matched_event:
+            bad_pods.append(pod)
+            break
 
       if bad_pods:
         log("Cordoning node and deleting pods...")
