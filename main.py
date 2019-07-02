@@ -3,6 +3,7 @@ import time, os, re, datetime
 import pykube
 from urllib3.exceptions import ProtocolError
 from requests.exceptions import ConnectionError as ReqConnectionError
+from requests.exceptions import ReadTimeout as ReqReadTimeout
 
 NODENAME = os.environ.get("NODENAME")
 POLL_INTERVAL = int(os.environ.get("POLL_INTERVAL", "60"))
@@ -42,10 +43,9 @@ def main():
         for pod in bad_pods:
           pod.delete()
 
-    except (ProtocolError, ConnectionResetError, ConnectionError, ReqConnectionError):
-      log("Connection reset...")
+    except (ProtocolError, ConnectionResetError, ConnectionError, ReqConnectionError, ReqReadTimeout):
+      log("Connection error. Resetting API connection...")
       api = pykube.HTTPClient(pykube.KubeConfig.from_service_account())
-      continue
 
     time.sleep(POLL_INTERVAL)
 
